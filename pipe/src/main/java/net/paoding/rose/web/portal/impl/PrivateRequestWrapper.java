@@ -355,4 +355,71 @@ public class PrivateRequestWrapper implements HttpServletRequest {
         return getRequest().getLocalPort();
     }
 
+    // 下面的方法，是为了解决portal不能在tomcat7、resin4下面运行的问题
+	// https://code.google.com/p/paoding-rose/issues/detail?id=26
+	//
+	// 问题产生的原因：HttpServletRequest接口在servlet api
+	// 3.0中增加了下面的方法，导致portal在tomcat7、resin4下面发生java.lang.AbstractMethodError异常
+
+	@Override
+	public AsyncContext getAsyncContext() {
+		return getRequest().getAsyncContext();
+	}
+
+    @Override
+    public DispatcherType getDispatcherType() {
+        return getRequest().getDispatcherType();
+    }
+
+    @Override
+    public ServletContext getServletContext() {
+        return getRequest().getServletContext();
+    }
+
+    @Override
+    public boolean isAsyncStarted() {
+        return getRequest().isAsyncStarted();
+    }
+
+    @Override
+    public boolean isAsyncSupported() {
+        return getRequest().isAsyncSupported();
+    }
+
+    @Override
+    public AsyncContext startAsync() throws IllegalStateException {
+        return getRequest().startAsync();
+    }
+
+    @Override
+    public AsyncContext startAsync(ServletRequest servletRequest, ServletResponse servletResponse)
+            throws IllegalStateException {
+        return getRequest().startAsync(servletRequest, servletResponse);
+    }
+
+    @Override
+    public boolean authenticate(HttpServletResponse response) throws IOException, ServletException {
+        return getRequest().authenticate(response);
+    }
+
+    @Override
+    public Part getPart(String name) throws IOException, ServletException {
+        return getRequest().getPart(name);
+    }
+
+    @Override
+    public Collection<Part> getParts() throws IOException, ServletException {
+        return getRequest().getParts();
+    }
+
+    @Override
+    public void login(String username, String password) throws ServletException {
+        getRequest().login(username, password);
+    }
+
+    @Override
+    public void logout() throws ServletException {
+        getRequest().logout();
+    }
+    
 }
